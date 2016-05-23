@@ -81,7 +81,8 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
     private static final int PULSE_ANIMATOR_DELAY = 300;
 
     private OnDialogDismissListener mDimissCallback;
-    private OnTimeSetListener mCallback;
+    private OnTimeSetListener onTimeSetListener;
+    private OnTimeChangedListener onTimeChangedListener;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -143,6 +144,19 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
         void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute);
     }
 
+    /**
+     * The callback interface when user change time
+     */
+    public interface OnTimeChangedListener {
+
+        /**
+         * @param dialog    The view associated with this listener.
+         * @param hourOfDay The hour that was set.
+         * @param minute    The minute that was set.
+         */
+        void onTimeChanged(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute);
+    }
+
     public static interface OnDialogDismissListener {
 
         public abstract void onDialogDismiss(DialogInterface dialoginterface);
@@ -170,7 +184,7 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
     @Deprecated
     public void initialize(OnTimeSetListener callback,
                            int hourOfDay, int minute, boolean is24HourMode) {
-        mCallback = callback;
+        onTimeSetListener = callback;
         mInitialHourOfDay = hourOfDay;
         mInitialMinute = minute;
         mIs24HourMode = is24HourMode;
@@ -222,8 +236,13 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
         return this;
     }
 
-    public RadialTimePickerDialogFragment setOnTimeSetListener(OnTimeSetListener callback) {
-        mCallback = callback;
+    public RadialTimePickerDialogFragment setOnTimeSetListener(OnTimeSetListener onTimeSetListener) {
+        this.onTimeSetListener = onTimeSetListener;
+        return this;
+    }
+
+    public RadialTimePickerDialogFragment setOnTimeChangedListener(OnTimeChangedListener onTimeChangedListener) {
+        this.onTimeChangedListener = onTimeChangedListener;
         return this;
     }
 
@@ -590,8 +609,8 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
             }
         }
         else {
-            if (mCallback != null) {
-                mCallback.onTimeSet(RadialTimePickerDialogFragment.this, mTimePicker.getHours(), mTimePicker.getMinutes());
+            if (onTimeSetListener != null) {
+                onTimeSetListener.onTimeSet(RadialTimePickerDialogFragment.this, mTimePicker.getHours(), mTimePicker.getMinutes());
             }
             dismiss();
         }
@@ -613,9 +632,13 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
                 mTimePicker.setContentDescription(mHourPickerDescription + ": " + newValue);
             }
             Utils.tryAccessibilityAnnounce(mTimePicker, announcement);
+            if(onTimeChangedListener != null)
+                onTimeChangedListener.onTimeChanged(this, newValue, mTimePicker.getMinutes());
         } else if (pickerIndex == MINUTE_INDEX) {
             setMinute(newValue);
             mTimePicker.setContentDescription(mMinutePickerDescription + ": " + newValue);
+            if(onTimeChangedListener != null)
+                onTimeChangedListener.onTimeChanged(this, mTimePicker.getHours(), newValue);
         } else if (pickerIndex == AMPM_INDEX) {
             updateAmPmDisplay(newValue);
         } else if (pickerIndex == ENABLE_PICKER_INDEX) {

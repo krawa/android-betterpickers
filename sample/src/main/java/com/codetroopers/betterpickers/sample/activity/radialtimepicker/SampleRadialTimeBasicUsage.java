@@ -1,6 +1,7 @@
 package com.codetroopers.betterpickers.sample.activity.radialtimepicker;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,9 +11,11 @@ import com.codetroopers.betterpickers.sample.R;
 import com.codetroopers.betterpickers.sample.activity.BaseSampleActivity;
 
 public class SampleRadialTimeBasicUsage extends BaseSampleActivity
-        implements RadialTimePickerDialogFragment.OnTimeSetListener {
+        implements RadialTimePickerDialogFragment.OnTimeSetListener, RadialTimePickerDialogFragment.OnTimeChangedListener {
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
+
+    private static final String TAG = SampleRadialTimeBasicUsage.class.getSimpleName();
 
     private TextView mResultTextView;
 
@@ -30,7 +33,8 @@ public class SampleRadialTimeBasicUsage extends BaseSampleActivity
             @Override
             public void onClick(View v) {
                 RadialTimePickerDialogFragment rtpd = new RadialTimePickerDialogFragment()
-                        .setOnTimeSetListener(SampleRadialTimeBasicUsage.this);
+                        .setOnTimeSetListener(SampleRadialTimeBasicUsage.this)
+                        .setOnTimeChangedListener(SampleRadialTimeBasicUsage.this);
                 rtpd.show(getSupportFragmentManager(), FRAG_TAG_TIME_PICKER);
             }
         });
@@ -39,6 +43,11 @@ public class SampleRadialTimeBasicUsage extends BaseSampleActivity
     @Override
     public void onTimeSet(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
         mResultTextView.setText(getString(R.string.radial_time_picker_result_value, hourOfDay, minute));
+    }
+
+    @Override
+    public void onTimeChanged(RadialTimePickerDialogFragment dialog, int hourOfDay, int minute) {
+        Log.d(TAG, "onTimeChanged "+hourOfDay+":"+minute);
     }
 
     @Override
