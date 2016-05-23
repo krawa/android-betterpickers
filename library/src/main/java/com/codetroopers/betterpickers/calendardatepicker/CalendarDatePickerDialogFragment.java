@@ -16,6 +16,7 @@
 
 package com.codetroopers.betterpickers.calendardatepicker;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -43,7 +44,6 @@ import com.codetroopers.betterpickers.HapticFeedbackController;
 import com.codetroopers.betterpickers.R;
 import com.codetroopers.betterpickers.Utils;
 import com.codetroopers.betterpickers.calendardatepicker.MonthAdapter.CalendarDay;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -303,8 +303,8 @@ public class CalendarDatePickerDialogFragment extends DialogFragment implements 
         mSelectDay = res.getString(R.string.select_day);
         mYearPickerDescription = res.getString(R.string.year_picker_description);
         mSelectYear = res.getString(R.string.select_year);
-        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpAccentColor, R.color.bpBlue);
-        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, R.color.numbers_text_color);
+        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpAccentColor, getResources().getColor(R.color.bpBlue));
+        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, getResources().getColor(R.color.numbers_text_color));
 
         mAnimator = (AccessibleDateAnimator) view.findViewById(R.id.animator);
         mAnimator.addView(mDayPickerView);
@@ -364,9 +364,9 @@ public class CalendarDatePickerDialogFragment extends DialogFragment implements 
 
         mHapticFeedbackController = new HapticFeedbackController(activity);
 
-        int mainColor1 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor1, R.color.bpWhite);
-        int mainColor2 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor2, R.color.circle_background);
-        int backgroundColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpLineColor, R.color.bpWhite);
+        int mainColor1 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor1, getResources().getColor(R.color.bpWhite));
+        int mainColor2 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor2, getResources().getColor(R.color.circle_background));
+        int backgroundColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpLineColor, getResources().getColor(R.color.bpWhite));
 
         mDayPickerView.setTheme(themeColors);
         mYearPickerView.setTheme(themeColors);

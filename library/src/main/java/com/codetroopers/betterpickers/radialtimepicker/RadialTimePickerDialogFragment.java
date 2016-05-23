@@ -16,6 +16,7 @@
 
 package com.codetroopers.betterpickers.radialtimepicker;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,7 +43,6 @@ import com.codetroopers.betterpickers.R;
 import com.codetroopers.betterpickers.Utils;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerErrorTextView;
 import com.codetroopers.betterpickers.radialtimepicker.RadialPickerLayout.OnValueSelectedListener;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -335,8 +335,8 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
         mSelectHours = res.getString(R.string.select_hours);
         mMinutePickerDescription = res.getString(R.string.minute_picker_description);
         mSelectMinutes = res.getString(R.string.select_minutes);
-        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpAccentColor, R.color.bpBlue);
-        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, R.color.numbers_text_color);
+        mSelectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpAccentColor, getResources().getColor(R.color.bpBlue));
+        mUnselectedColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, getResources().getColor(R.color.numbers_text_color));
 
         mHourView = (TextView) view.findViewById(R.id.hours);
         mHourView.setOnKeyListener(keyboardListener);
@@ -473,10 +473,10 @@ public class RadialTimePickerDialogFragment extends DialogFragment implements On
         mTimePicker.setTheme(themeColors);
 
         // Prepare some colors to use.
-        int mainColor1 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor1, R.color.bpWhite);
-        int mainColor2 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor2, R.color.circle_background);
-        int lineColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpLineColor, R.color.bpLine_background);
-        int mainTextColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, R.color.numbers_text_color);
+        int mainColor1 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor1, getResources().getColor(R.color.bpWhite));
+        int mainColor2 = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainColor2, getResources().getColor(R.color.circle_background));
+        int lineColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpLineColor, getResources().getColor(R.color.bpLine_background));
+        int mainTextColor = themeColors.getColor(R.styleable.BetterPickersDialog_bpMainTextColor, getResources().getColor(R.color.numbers_text_color));
 
         // Set the colors for each view based on the theme.
         view.findViewById(R.id.time_display_background).setBackgroundColor(mainColor1);
